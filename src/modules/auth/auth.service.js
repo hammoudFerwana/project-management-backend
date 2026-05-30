@@ -29,3 +29,26 @@ export const registar = async function (data) {
     token,
   };
 };
+
+export const login = async function (data) {
+  const { email, password } = data;
+
+  if (!email || !password) {
+    throw new appError("the email and password are required", 400);
+  }
+
+  const user = await userModel.findOne({ email }).select("+password");
+
+  if (!user) {
+    throw new appError("the user is not found", 401);
+  }
+
+  const isCorrectPassword = await user.comparePassword(password);
+
+  if (!isCorrectPassword) {
+    throw new appError("the email or password is incorrect", 401);
+  }
+
+  const token = generateToekn(user._id);
+  return { user: user, token };
+};
