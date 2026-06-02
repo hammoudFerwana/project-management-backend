@@ -11,7 +11,7 @@ export const registar = async function (data) {
   const user = await userModel.findOne({ email });
 
   if (user) {
-    throw new appError("the email is already exist", 400);
+    throw new appError("the email is already exist", 409);
   }
 
   const newUser = await userModel.create({
@@ -32,10 +32,6 @@ export const registar = async function (data) {
 
 export const login = async function (data) {
   const { email, password } = data;
-
-  if (!email || !password) {
-    throw new appError("the email and password are required", 400);
-  }
 
   const user = await userModel.findOne({ email }).select("+password");
 

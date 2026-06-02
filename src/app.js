@@ -1,22 +1,55 @@
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import cors from "cors";
+import ratelimit from "express-rate-limit";
 import authRouter from "./modules/auth/auth.routes.js";
-import { globalErrorMiddleWare } from "./shared/middlewares/globalErrorMiddleWare.js";
+import { appErrors } from "./shared/errors/appErrors.js";
+import { globalErrorMiddleware } from "./shared/middlewares/globalErrorMiddleWare.js";
+import { NODE_ENV } from "./config/env.js";
 const app = express();
 
-app.use(express.json());
 app.use(helmet());
-app.use(morgan("dev"));
 
-app.use("/api/v1/auth", authRouter);
+if (NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
+
+app.use(
+  // TODO in the production (https://your-production-domain.com)
+  cors({
+    origin:
+      NODE_ENV === "production"
+        ? "https://your-production-domain.com"
+        : "http://localhost:3000",
+    credentials: true, // its for the allow cookies and the authorization header
+
+    optionsSuccessStatus: 200,
+  }),
+);
+
+app.use(
+  express.json({
+    limit: "10kb",
+  }),
+);
+const authLimiter = ratelimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes to reset the count
+  max: 20,
+
+  message: {
+    status: "fail",
+    message:
+      "Too many requests from this IP, please try again after 15 minutes",
+  },
+  standardHeaders: true, // Return rate limit info thats stay in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the unstandard `X-RateLimit-*` headers
+});
+app.use("/api/v1/auth", authLimiter, authRouter);
 
 app.use((req, res, next) => {
-  res.status(404).json({
-    status: "fail",
-    message: "the route is not found",
-  });
+  next(new appErrors(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-app.use(globalErrorMiddleWare);
+app.use(globalErrorMiddleware);
 export default app;

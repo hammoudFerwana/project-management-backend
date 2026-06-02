@@ -1,10 +1,10 @@
-import asyncWrapper from "../utils/asyncWrapper.js";
+import { asyncWrapper } from "../utils/asyncWrapper.js";
 import appError from "../errors/appErrors.js";
 import { JWT_SECRET } from "../../config/env.js";
 import { userModle } from "../../modules/users/user.model.js";
 import jwt from "jsonwebtoken";
-let token;
 export const protect = asyncWrapper(async (req, res, next) => {
+  let token; // !Note:if i wrote it outside the function it will be global variable (so the same var . and didint change in the function) but if i wrote it inside the function it will be local variable (so every time i call the function it will create new var and change it)
   // 1- check if the token exist
   if (
     req.headers.authorization &&

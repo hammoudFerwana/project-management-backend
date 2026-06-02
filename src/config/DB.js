@@ -8,6 +8,6 @@ export const connectDB = async () => {
     return true;
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
-    return false;
+    throw error; // !Note: i removed the return false because any async fun will auto. return a promise so when i retuen false its will be like i retuen a fulfield not rejected like i exprected
   }
 };
