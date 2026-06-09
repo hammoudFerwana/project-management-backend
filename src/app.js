@@ -3,8 +3,12 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import ratelimit from "express-rate-limit";
+
 import authRouter from "./modules/auth/auth.routes.js";
-import { appErrors } from "./shared/errors/appErrors.js";
+import userRouter from "./modules/users/user.route.js";
+
+import appErrors from "./shared/errors/appErrors.js";
+
 import { globalErrorMiddleware } from "./shared/middlewares/globalErrorMiddleWare.js";
 import { NODE_ENV } from "./config/env.js";
 const app = express();
@@ -33,6 +37,7 @@ app.use(
     limit: "10kb",
   }),
 );
+
 const authLimiter = ratelimit({
   windowMs: 15 * 60 * 1000, // 15 minutes to reset the count
   max: 20,
@@ -46,6 +51,7 @@ const authLimiter = ratelimit({
   legacyHeaders: false, // Disable the unstandard `X-RateLimit-*` headers
 });
 app.use("/api/v1/auth", authLimiter, authRouter);
+app.use("/api/v1/users", userRouter);
 
 app.use((req, res, next) => {
   next(new appErrors(`Can't find ${req.originalUrl} on this server!`, 404));

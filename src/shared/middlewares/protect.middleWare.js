@@ -1,7 +1,7 @@
 import { asyncWrapper } from "../utils/asyncWrapper.js";
 import appError from "../errors/appErrors.js";
 import { JWT_SECRET } from "../../config/env.js";
-import { userModle } from "../../modules/users/user.model.js";
+import { userModel } from "../../modules/users/user.model.js";
 import jwt from "jsonwebtoken";
 export const protect = asyncWrapper(async (req, res, next) => {
   let token; // !Note:if i wrote it outside the function it will be global variable (so the same var . and didint change in the function) but if i wrote it inside the function it will be local variable (so every time i call the function it will create new var and change it)
@@ -17,11 +17,12 @@ export const protect = asyncWrapper(async (req, res, next) => {
       new appError("You are not logged in! Please log in to get access.", 401),
     );
   }
+
   // 2- verify the token
   const decode = jwt.verify(token, JWT_SECRET);
 
   // 3- check if the user still exist (the token is valid but the user is deleted)
-  const user = await userModle.findById(decode.id);
+  const user = await userModel.findById(decode.id);
 
   if (!user) {
     return next(

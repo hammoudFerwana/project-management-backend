@@ -29,6 +29,19 @@ const envSchema = Joi.object({
     "any.required": "JWT_EXPIRE is required",
     "string .base": "JWT_EXPIRE must be a string",
   }),
+  EMAIL_USER: Joi.string().email().required().messages({
+    "string.email": "EMAIL_USER must be a valid email address",
+    "any.required": "EMAIL_USER is required",
+  }),
+  EMAIL_PASSWORD: Joi.string().required().messages({
+    "any.required": "EMAIL_PASSWORD is required",
+  }),
+  EMAIL_FROM: Joi.string().required().messages({
+    "any.required": "EMAIL_FROM is required",
+  }),
+  RESEND_API_KEY: Joi.string().required().messages({
+    "any.required": "RESEND_API_KEY is required",
+  }),
 })
   .unknown()
   .required();
@@ -46,4 +59,16 @@ if (error) {
   console.error("====================================================\n");
   process.exit(1); // its for stop the server
 }
-export const { PORT, DB_CONNECTION, NODE_ENV, JWT_SECRET, JWT_EXPIRE } = value;
+export const {
+  PORT,
+  DB_CONNECTION,
+  NODE_ENV,
+  JWT_SECRET,
+  JWT_EXPIRE,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
+  HOST,
+  PORT_EMAIL,
+  EMAIL_FROM,
+  RESEND_API_KEY,
+} = value;
