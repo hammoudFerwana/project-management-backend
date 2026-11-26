@@ -1,194 +1,37 @@
-# 📌 Project Management Tool (Backend API)
+# Project Management Backend (early version)
 
-A scalable and modular backend system for a Trello-like project management platform designed for small teams and Arabic-speaking users.
-
-It provides core features such as task management, Kanban boards, time tracking, and weekly reporting.
-
-Built with **Node.js, Express.js, and MongoDB**, following a feature-based modular architecture for scalability and maintainability.
+> **This repo is the starting point of TeamLine.**
+> The full, maintained backend lives here: **[Team-line/TeamLine-Backend](https://github.com/Team-line/TeamLine-Backend)**
 
 ---
 
-# 🚀 Features (MVP)
+## What this repo is
 
-* 🔐 Authentication (JWT-based)
-* 👥 Workspace management
-* 📋 Kanban boards system
-* 🧩 Custom columns per board
-* ✅ Task creation & assignment
-* 🔄 Drag & drop task movement (API support)
-* ⏱️ Time tracking per task
-* 📊 Weekly reports generation (export-ready structure)
+The first stage of a Kanban-style project management API for small teams and Arabic-speaking users. The complete project continues in TeamLine-Backend, which adds boards, tasks, time tracking, reports and a dashboard.
 
----
+## What is in this version
 
-# 🏗️ Tech Stack
+- Sign up and sign in with JWT.
+- User profile, update password and update profile data.
+- Forgot password and reset by email link.
+- Workspace data model (owner and members).
+- Rate limit on auth routes, Helmet and CORS.
 
-* Node.js
-* Express.js
-* MongoDB + Mongoose
-* JWT Authentication
-* bcrypt (password hashing)
-* dotenv
-* cors + helmet (security)
+**Stack:** Node.js, Express 5, MongoDB, Mongoose, Joi, JWT, bcryptjs.
 
----
+## Compared with TeamLine
 
-# 📁 Project Architecture
+| Feature | This repo | TeamLine |
+|---------|:---------:|:--------:|
+| Auth and password reset | ✅ | ✅ |
+| Refresh tokens | ❌ | ✅ |
+| Workspaces and members API | ❌ | ✅ |
+| Boards, columns and tasks | ❌ | ✅ |
+| Time tracking | ❌ | ✅ |
+| Reports (CSV and PDF) | ❌ | ✅ |
+| Dashboard | ❌ | ✅ |
 
-The project follows a **feature-based modular architecture**:
+## Author
 
-```text
-src/
-├── modules/
-│   ├── auth/
-│   ├── users/
-│   ├── workspaces/
-│   ├── boards/
-│   ├── columns/
-│   ├── tasks/
-│   ├── time-tracking/
-│   └── reports/
-│
-├── shared/
-├── config/
-├── app.js
-└── server.js
-```
-
-Each module contains:
-
-* controller
-* service
-* routes
-* model
-* validation (where needed)
-
----
-
-# ⚙️ Installation
-
-```bash
-git clone https://github.com/your-username/project-management-backend.git
-cd project-management-backend
-npm install
-```
-
----
-
-# 🔧 Environment Variables
-
-Create a `.env` file:
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-JWT_EXPIRES_IN=7d
-```
-
----
-
-# ▶️ Run the Project
-
-### Development mode:
-
-```bash
-npm run dev
-```
-
-### Production:
-
-```bash
-npm start
-```
-
----
-
-# 📡 API Base URL
-
-```
-/api/v1
-```
-
----
-
-# 🔐 Authentication Flow
-
-1. User registers or logs in
-2. Server generates JWT token
-3. Token is sent in request header:
-
-```http
-Authorization: Bearer <token>
-```
-
----
-
-# 📊 Core Modules
-
-## Auth
-
-* Register
-* Login
-* JWT validation
-
-## Tasks
-
-* Create task
-* Update task
-* Assign user
-* Move between columns
-
-## Boards
-
-* Create board
-* Manage structure
-
-## Time Tracking
-
-* Start timer
-* Stop timer
-* Log work hours
-
-## Reports
-
-* Weekly aggregation
-* Export-ready data
-
----
-
-# 🧠 Design Principles
-
-* Modular architecture (feature-based)
-* Separation of concerns
-* Scalable backend structure
-* Stateless API design
-* Clean error handling system
-
----
-
-# 🚧 Project Status
-
-🚀 MVP Phase (Backend Foundation in progress)
-
----
-
-# 📌 Future Improvements
-
-* Real-time collaboration (WebSockets)
-* Notifications system
-* Mobile application
-* AI task suggestions
-* Advanced analytics dashboard
-
----
-
-# 👨‍💻 Author
-
-Built as part of a scalable full-stack project management system.
-
----
-
-# 📄 License
-
-This project is currently private / under development.
+[Mohammed Ferwana](https://github.com/hammoudFerwana), backend developer.
+[LinkedIn](https://www.linkedin.com/in/mohammed-ferwana) · mohammedferwana2@gmail.com
